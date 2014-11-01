@@ -1,0 +1,11 @@
+*.pid
+*.pyc
+*.pylint
+*.rdb
+*.swp
+.env
+build
+log/*
+!log/.gitkeep
+setting.py
+venv

@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+client_key = ''
+client_secret = ''
+callback_uri = ''
+request_token_url = 'https://api.twitter.com/oauth/request_token'
+authorization_url = 'https://api.twitter.com/oauth/authorize'
+access_token_url = 'https://api.twitter.com/oauth/access_token'
