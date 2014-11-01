@@ -3,4 +3,5 @@ pip>=1.4
 requests
 requests-oauthlib
 setuptools>=0.9
+twitter
 wheel>=0.21
