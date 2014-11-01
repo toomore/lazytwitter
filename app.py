@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import setting
+import twitter
 from flask import Flask
 from flask import request
 from requests_oauthlib import OAuth1Session
@@ -25,5 +26,18 @@ def twitter_back():
     oauth_session.parse_authorization_response(request.url)
     return u'%s' % oauth_session.fetch_access_token(setting.access_token_url)
 
+@app.route("/twitter_test_post")
+def twitter_test_post():
+    twitter_api = twitter.Api(consumer_key=setting.client_key,
+        consumer_secret=setting.client_secret,
+        access_token_key=setting.oauth_token,
+        access_token_secret=setting.oauth_token_secret)
+
+    return u'%s' % twitter_api.PostUpdate(u'只有 coordinates 資訊呢？',
+            place_id='204a435ce97d5de4',
+            latitude='25.0358461',
+            longitude='121.45030159999999',
+            display_coordinates=True)
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
