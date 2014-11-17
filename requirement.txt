@@ -1,7 +1,8 @@
 flask
 pip>=1.4
+python-twitter
 requests
 requests-oauthlib
 setuptools>=0.9
-python-twitter
+uwsgi
 wheel>=0.21
