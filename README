@@ -1,0 +1,1 @@
+git remote update; git pull origin master; sudo kill -9 $(cat ./lazytwitter.pid); uwsgi --ini ./uwsgi.ini --pidfile ./lazytwitter.pid &
