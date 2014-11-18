@@ -2,8 +2,10 @@
 import setting
 import twitter
 from flask import Flask
+from flask import redirect
 from flask import request
 from flask import session
+from flask import url_for
 from requests_oauthlib import OAuth1Session
 
 
@@ -15,7 +17,7 @@ def home():
     return "Hello World!"
 
 @app.route("/login")
-def twitter_url():
+def login():
     oauth_session = OAuth1Session(
             setting.client_key,
             client_secret=setting.client_secret,
@@ -63,6 +65,11 @@ def twitter_test_post():
             latitude='25.0358461',
             longitude='121.45030159999999',
             display_coordinates=True)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)
