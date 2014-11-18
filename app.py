@@ -38,6 +38,19 @@ def twitter_back():
     session.update(token_data)
     return u'%s' % session
 
+@app.route("/tweet", methods=['GET', 'POST'])
+def tweet():
+    if request.method == 'GET':
+        return u'<form method="POST"><textarea name="content"></textarea><br><input type="submit"></form>'
+    elif request.method == 'POST':
+        if request.form.get('content'):
+            twitter_api = twitter.Api(consumer_key=setting.client_key,
+                consumer_secret=setting.client_secret,
+                access_token_key=session['oauth_token'],
+                access_token_secret=session['oauth_token_secret'])
+            return u'%s' % twitter_api.PostUpdate(request.form['content'])
+        return u'No content.'
+
 @app.route("/twitter_test_post")
 def twitter_test_post():
     twitter_api = twitter.Api(consumer_key=setting.client_key,
