@@ -12,14 +12,16 @@ app = Flask(__name__)
 def home():
     return "Hello World!"
 
-@app.route("/twitter")
+@app.route("/login")
 def twitter_url():
     oauth_session = OAuth1Session(
             setting.client_key,
             client_secret=setting.client_secret,
             callback_uri=setting.callback_uri)
     oauth_session.fetch_request_token(setting.request_token_url)
-    return u'<a href="%(url)s">%(url)s</a>' % dict(url=oauth_session.authorization_url(setting.authenticate_url))
+    login = u'<a href="%(url)s">Login</a>' % dict(url=oauth_session.authorization_url(setting.authenticate_url))
+    create = u'<a href="%(url)s">Create</a>' % dict(url=oauth_session.authorization_url(setting.authorize_url))
+    return u'%s / %s' % (login, create)
 
 @app.route("/twitter_back")
 def twitter_back():
