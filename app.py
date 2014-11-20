@@ -12,11 +12,11 @@ from requests_oauthlib import OAuth1Session
 app = Flask(__name__)
 app.secret_key = setting.SESSION_KEY
 
-@app.route("/")
-def home():
-    return "Hello World!"
+#@app.route("/")
+#def home():
+#    return "Hello World!"
 
-@app.route("/login")
+@app.route("/")
 def login():
     login = u'<a href="%(url)s">Login</a>' % dict(url=url_for('get_login_url', auth_method='login'))
     create = u'<a href="%(url)s">Create</a>' % dict(url=url_for('get_login_url'))
