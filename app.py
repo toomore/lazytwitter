@@ -29,16 +29,19 @@ def login():
 
 @app.route("/twitter_back")
 def twitter_back():
-    oauth_session = OAuth1Session(
-            setting.client_key,
-            client_secret=setting.client_secret,
-            callback_uri=setting.callback_uri)
-    oauth_session.parse_authorization_response(request.url)
-    #return u'%s' % oauth_session.fetch_access_token(setting.access_token_url)
-    # key: oauth_token_secret, oauth_token, user_id, screen_name
-    token_data = oauth_session.fetch_access_token(setting.access_token_url)
-    session.update(token_data)
-    return redirect(url_for('tweet'))
+    if not request.args.get('denied'):
+        oauth_session = OAuth1Session(
+                setting.client_key,
+                client_secret=setting.client_secret,
+                callback_uri=setting.callback_uri)
+        oauth_session.parse_authorization_response(request.url)
+        #return u'%s' % oauth_session.fetch_access_token(setting.access_token_url)
+        # key: oauth_token_secret, oauth_token, user_id, screen_name
+        token_data = oauth_session.fetch_access_token(setting.access_token_url)
+        session.update(token_data)
+        return redirect(url_for('tweet'))
+    else:
+        return u'取消授權'
 
 @app.route("/tweet", methods=['GET', 'POST'])
 def tweet():
