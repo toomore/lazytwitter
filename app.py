@@ -38,12 +38,12 @@ def twitter_back():
     # key: oauth_token_secret, oauth_token, user_id, screen_name
     token_data = oauth_session.fetch_access_token(setting.access_token_url)
     session.update(token_data)
-    return u'%s' % session
+    return redirect(url_for('tweet'))
 
 @app.route("/tweet", methods=['GET', 'POST'])
 def tweet():
     if request.method == 'GET':
-        return u'<form method="POST"><textarea name="content"></textarea><br><input type="submit"></form>'
+        return u'<form method="POST">Hi %s<br><textarea name="content"></textarea><br><input type="submit"></form>' % session['screen_name']
     elif request.method == 'POST':
         if request.form.get('content'):
             twitter_api = twitter.Api(consumer_key=setting.client_key,
