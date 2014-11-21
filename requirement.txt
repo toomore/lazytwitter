@@ -1,3 +1,4 @@
+MySQL-python
 flask
 pip>=1.4
 python-twitter
