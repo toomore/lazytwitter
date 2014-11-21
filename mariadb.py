@@ -35,22 +35,24 @@ class MariaDB(object):
         self.conn.close()
 
 
-class Userdata(MariaDB):
+class Usertoken(MariaDB):
     pass
 
-##cur.execute("""select * from %s""" % setting.TESTTABLE)
 
-with Userdata() as userdata:
-    result = userdata.sql("""select * from %s""" % setting.TESTTABLE)
+if __name__ == '__main__':
+    ##cur.execute("""select * from %s""" % setting.TESTTABLE)
 
-for i in result:
-    print i
+    with Usertoken() as usertoken:
+        result = usertoken.sql("""select * from `usertoken`""")
 
-print userdata.get_columns()
-print 'get cur:', userdata.get_rowcount()
+    for i in result:
+        print i
 
-#print '>>> print cur', cur, dir(cur)
-#columns = [i[0] for i in cur.description]
-#print columns
-#print cur.description_flags
-#cur.close()
+    print usertoken.get_columns()
+    print 'get cur:', usertoken.get_rowcount()
+
+    #print '>>> print cur', cur, dir(cur)
+    #columns = [i[0] for i in cur.description]
+    #print columns
+    #print cur.description_flags
+    #cur.close()
