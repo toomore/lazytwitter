@@ -24,9 +24,9 @@ class MariaDB(object):
         return self.cur.fetchall()
 
     def select(self, sql, params=None):
-        self.cur.execute(sql, params)
+        result = self.sql(sql, params)
         columns = self.get_columns()
-        return (dict(zip(columns, i)) for i in self.cur.fetchall())
+        return (dict(zip(columns, i)) for i in result)
 
     def insert(self, sql, params=None):
         self.sql(sql, params, True)
@@ -53,11 +53,11 @@ if __name__ == '__main__':
     ##cur.execute("""select * from %s""" % setting.TESTTABLE)
 
     with Usertoken() as usertoken:
-        #result = usertoken.select("""select user_id, screen_name from `usertoken`""")
-        result = usertoken.insert("""insert into `usertoken`(user_id, screen_name, oauth_token, oauth_token_secret) value('112222', 'toomore', 'A', 'B') ON DUPLICATE KEY UPDATE screen_name='toomore2', oauth_token='C', oauth_token_secret='D'""")
+        result = usertoken.select("""select user_id, screen_name from `usertoken`""")
+        #result = usertoken.insert("""insert into `usertoken`(user_id, screen_name, oauth_token, oauth_token_secret) value('112222', 'toomore', 'A', 'B') ON DUPLICATE KEY UPDATE screen_name='toomore2', oauth_token='C', oauth_token_secret='D'""")
 
-    #for i in result:
-    #    print i
+    for i in result:
+        print i
 
     #print usertoken.get_columns()
     print 'get cur:', usertoken.get_rowcount()
