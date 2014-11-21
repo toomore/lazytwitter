@@ -16,8 +16,12 @@ class MariaDB(object):
         print 'ENTERRR'
         return self
 
-    def sql(self, sql, params=None):
+    def sql(self, sql, params=None, need_commit=False):
         self.cur.execute(sql, params)
+
+        if need_commit:
+            self.conn.commit()
+
         return self.cur.fetchall()
 
     def get_columns(self):
@@ -44,11 +48,12 @@ if __name__ == '__main__':
 
     with Usertoken() as usertoken:
         result = usertoken.sql("""select * from `usertoken`""")
+        result = usertoken.sql("""insert into `usertoken`(user_id, screen_name, oauth_token, oauth_token_secret) value('112222', 'toomore', 'A', 'B') ON DUPLICATE KEY UPDATE screen_name='toomore2', oauth_token='C', oauth_token_secret='D'""", need_commit=True)
 
-    for i in result:
-        print i
+    #for i in result:
+    #    print i
 
-    print usertoken.get_columns()
+    #print usertoken.get_columns()
     print 'get cur:', usertoken.get_rowcount()
 
     #print '>>> print cur', cur, dir(cur)
