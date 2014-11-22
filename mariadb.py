@@ -31,6 +31,9 @@ class MariaDB(object):
     def insert(self, sql, params=None):
         self.sql(sql, params, True)
 
+    def update(self, sql, params=None):
+        self.sql(sql, params, True)
+
     def get_columns(self):
         return [i[0] for i in self.cur.description]
 
