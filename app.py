@@ -7,6 +7,7 @@ from flask import request
 from flask import session
 from flask import url_for
 from requests_oauthlib import OAuth1Session
+from usertoken import Usertoken
 
 
 app = Flask(__name__)
@@ -47,6 +48,10 @@ def twitter_back():
         # key: oauth_token_secret, oauth_token, user_id, screen_name
         token_data = oauth_session.fetch_access_token(setting.access_token_url)
         session.update(token_data)
+
+        with Usertoken() as usertoken:
+            usertoken.add_token(**token_data)
+
         return redirect(url_for('tweet'))
     else:
         return u'取消授權'
@@ -83,4 +88,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

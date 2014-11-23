@@ -4,7 +4,7 @@ from mariadb import MariaDB
 
 class Usertoken(MariaDB):
     def add_token(self, **kwargs):
-        result = usertoken.insert("""insert into `usertoken`(user_id, screen_name, oauth_token, oauth_token_secret) value(%(user_id)s, %(screen_name)s, %(oauth_token)s, %(oauth_token_secret)s) ON DUPLICATE KEY UPDATE screen_name=%(screen_name)s, oauth_token=%(oauth_token)s, oauth_token_secret=%(oauth_token_secret)s""", kwargs)
+        self.insert("""insert into `usertoken`(user_id, screen_name, oauth_token, oauth_token_secret) value(%(user_id)s, %(screen_name)s, %(oauth_token)s, %(oauth_token_secret)s) ON DUPLICATE KEY UPDATE screen_name=%(screen_name)s, oauth_token=%(oauth_token)s, oauth_token_secret=%(oauth_token_secret)s""", kwargs)
 
 
 if __name__ == '__main__':
