@@ -22,15 +22,16 @@ class CouchDBBase(dict):
         self.db.save(data)
 
 
-class Test(CouchDBBase):
-    db_name = 'toomoretest'
-
-    def __init__(self, _id):
-        super(Test, self).__init__(self.db_name, _id)
+#class Test(CouchDBBase):
+#    db_name = 'toomoretest'
+#
+#    def __init__(self, _id):
+#        super(Test, self).__init__(self.db_name, _id)
 
 
 if __name__ == '__main__':
-    test = Test('oppp')
-    print 'test: ', test
+    #test = Test('oppp')
+    #print 'test: ', test
     #test['name'] = 'toomore2'
     #test.save()
+    pass
