@@ -7,7 +7,7 @@ class CouchDBBase(dict):
 
     def __init__(self, db_name, _id, prepare_date=True):
         self.db_name = db_name
-        self._id = _id
+        self._id = _id if isinstance(_id, basestring) else str(_id)
         self.db = COUCHDB[db_name]
 
         if prepare_date:

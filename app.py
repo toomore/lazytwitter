@@ -7,6 +7,7 @@ from flask import request
 from flask import session
 from flask import url_for
 from requests_oauthlib import OAuth1Session
+from tweet import Tweet
 from usertoken import Usertoken
 
 
@@ -52,12 +53,12 @@ def twitter_back():
         with Usertoken() as usertoken:
             usertoken.add_token(**token_data)
 
-        return redirect(url_for('tweet'))
+        return redirect(url_for('do_tweet'))
     else:
         return u'取消授權'
 
 @app.route("/tweet", methods=['GET', 'POST'])
-def tweet():
+def do_tweet():
     if request.method == 'GET':
         return u'<form method="POST">Hi %s<br><textarea name="content"></textarea><br><input type="submit"></form>' % session['screen_name']
     elif request.method == 'POST':
@@ -66,7 +67,15 @@ def tweet():
                 consumer_secret=setting.client_secret,
                 access_token_key=session['oauth_token'],
                 access_token_secret=session['oauth_token_secret'])
-            return u'%s' % twitter_api.PostUpdate(request.form['content'])
+            result = twitter_api.PostUpdate(request.form['content']).AsDict()
+            if 'id' in result:
+                tweet = Tweet(result['id'])
+                tweet.update(result)
+                tweet.save()
+                return u'%s' % result
+
+            return u'No id in result'
+
         return u'No content.'
 
 @app.route("/twitter_test_post")
