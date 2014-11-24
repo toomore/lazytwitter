@@ -60,21 +60,33 @@ def twitter_back():
 @app.route("/tweet", methods=['GET', 'POST'])
 def do_tweet():
     if request.method == 'GET':
-        return u'<form method="POST">Hi %s<br><textarea name="content"></textarea><br><input type="submit"></form>' % session['screen_name']
+        return u'''<!doctype html><form method="POST">Hi %s<br>
+        <textarea name="content"></textarea><br>
+        <input type="text" name="medias"><br>
+        <input type="text" name="medias"><br>
+        <input type="submit">
+        </form>''' % session['screen_name']
     elif request.method == 'POST':
         if request.form.get('content'):
             twitter_api = twitter.Api(consumer_key=setting.client_key,
                 consumer_secret=setting.client_secret,
                 access_token_key=session['oauth_token'],
                 access_token_secret=session['oauth_token_secret'])
-            result = twitter_api.PostUpdate(request.form['content']).AsDict()
-            if 'id' in result:
-                tweet = Tweet(result['id'])
-                tweet.update(result)
-                tweet.save()
-                return u'%s' % result
 
-            return u'No id in result'
+            if request.form.getlist('medias'):
+                results = [twitter_api.PostMultipleMedia(request.form['content'], request.form.getlist('medias')), ]
+
+            else:
+                results = twitter_api.PostUpdates(request.form['content'], u'...')
+
+            for result in results:
+                result = result.AsDict()
+                if 'id' in result:
+                    tweet = Tweet(result['id'])
+                    tweet.update(result)
+                    tweet.save()
+
+            return u'<pre>%s</pre>' % results
 
         return u'No content.'
 
