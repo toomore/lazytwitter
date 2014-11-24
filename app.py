@@ -73,7 +73,7 @@ def do_tweet():
                 access_token_key=session['oauth_token'],
                 access_token_secret=session['oauth_token_secret'])
 
-            if request.form.getlist('medias'):
+            if all(request.form.getlist('medias')):
                 results = [twitter_api.PostMultipleMedia(request.form['content'], request.form.getlist('medias')), ]
 
             else:
